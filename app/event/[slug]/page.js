@@ -3,6 +3,7 @@ import { createServerClient } from '@/lib/supabase/server';
 import { GroupLogo } from '@/design-system/components/brand/GroupLogo.jsx';
 import { ShareButton } from './ShareButton';
 import { ProfilePicker } from './ProfilePicker';
+import { AllReceiptsSection } from './AllReceiptsSection';
 
 export default async function EventHomePage({ params }) {
   const { slug } = await params;
@@ -46,6 +47,10 @@ export default async function EventHomePage({ params }) {
         Who are you?
       </h2>
       <ProfilePicker eventId={event.id} eventSlug={slug} profiles={profiles || []} />
+
+      <div style={{ marginTop: 'var(--space-8)' }}>
+        <AllReceiptsSection eventId={event.id} eventSlug={slug} />
+      </div>
     </main>
   );
 }

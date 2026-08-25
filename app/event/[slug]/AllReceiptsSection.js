@@ -1,21 +1,15 @@
-import { notFound } from 'next/navigation';
 import { createServerClient } from '@/lib/supabase/server';
-import { GroupLogo } from '@/design-system/components/brand/GroupLogo.jsx';
 import { Card } from '@/design-system/components/core/Card.jsx';
 import { Link } from '@/design-system/components/core/Link.jsx';
-import { ReceiptCard } from '../ReceiptCard';
+import { ReceiptCard } from './ReceiptCard';
 
-export default async function AllReceiptsPage({ params }) {
-  const { slug } = await params;
+export async function AllReceiptsSection({ eventId, eventSlug }) {
   const supabase = createServerClient();
-
-  const { data: event } = await supabase.from('events').select('*').eq('slug', slug).single();
-  if (!event) notFound();
 
   const { data: receipts } = await supabase
     .from('receipts')
     .select('*, profiles(name), receipt_files(*)')
-    .eq('event_id', event.id)
+    .eq('event_id', eventId)
     .order('created_at', { ascending: false });
 
   const receiptsWithUrls = (receipts || []).map((r) => ({
@@ -41,26 +35,7 @@ export default async function AllReceiptsPage({ params }) {
   const groups = Array.from(groupsByProfile.values()).sort((a, b) => a.name.localeCompare(b.name));
 
   return (
-    <main
-      style={{
-        maxWidth: 'var(--container-narrow)',
-        margin: '0 auto',
-        padding: 'var(--space-6) var(--page-pad)',
-      }}
-    >
-      <GroupLogo tone="purple" height={56} src="/logo/8th-sutton-purple.png" />
-      <h1
-        style={{
-          fontSize: 'var(--text-h1)',
-          fontWeight: 'var(--weight-black)',
-          lineHeight: 'var(--leading-tight)',
-          marginTop: 'var(--space-5)',
-          marginBottom: 'var(--space-4)',
-        }}
-      >
-        {event.name}
-      </h1>
-
+    <div>
       <Card tone="purple" padding={20} style={{ marginBottom: 'var(--space-4)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
           <div>
@@ -75,11 +50,10 @@ export default async function AllReceiptsPage({ params }) {
         </div>
       </Card>
 
-      <div style={{ display: 'flex', gap: 'var(--space-4)', marginBottom: 'var(--space-6)' }}>
-        <Link href={`/api/event/${slug}/export`} bold>
+      <div style={{ marginBottom: 'var(--space-6)' }}>
+        <Link href={`/api/event/${eventSlug}/export`} bold>
           Download all receipts (zip + spreadsheet)
         </Link>
-        <Link href={`/event/${slug}`}>Back to event</Link>
       </div>
 
       <h2 style={{ fontSize: 'var(--text-h4)', fontWeight: 'var(--weight-black)', marginBottom: 'var(--space-4)' }}>
@@ -112,11 +86,11 @@ export default async function AllReceiptsPage({ params }) {
               </div>
             </div>
             {group.receipts.map((r) => (
-              <ReceiptCard key={r.id} receipt={r} eventSlug={slug} showName={false} />
+              <ReceiptCard key={r.id} receipt={r} eventSlug={eventSlug} showName={false} />
             ))}
           </div>
         ))
       )}
-    </main>
+    </div>
   );
 }

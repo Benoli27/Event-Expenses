@@ -75,11 +75,10 @@ export default async function MyReceiptsPage({ params }) {
         </div>
       </Card>
 
-      <div style={{ display: 'flex', gap: 'var(--space-4)', marginBottom: 'var(--space-6)' }}>
-        <Link href={`/event/${slug}/all`} bold>
-          View everyone&apos;s receipts
+      <div style={{ marginBottom: 'var(--space-6)' }}>
+        <Link href={`/event/${slug}`} bold>
+          Not {profile.name}? Switch profile or view everyone&apos;s receipts
         </Link>
-        <Link href={`/event/${slug}`}>Not {profile.name}? Switch profile</Link>
       </div>
 
       <ReceiptForm profileId={profile.id} eventSlug={slug} />
