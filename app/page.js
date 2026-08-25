@@ -32,10 +32,10 @@ export default function Home() {
         Upload receipts and claim back expenses for your event.
       </p>
       <div style={{ display: "flex", gap: "var(--space-3)", marginTop: "var(--space-6)" }}>
-        <Button variant="primary" size="lg">
+        <Button variant="primary" size="lg" href="/new">
           Create an event
         </Button>
-        <Button variant="outline" size="lg">
+        <Button variant="outline" size="lg" href="/join">
           Join an event
         </Button>
       </div>
