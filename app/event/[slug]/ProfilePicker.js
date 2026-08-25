@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { createProfile } from '@/lib/actions';
 import { Button } from '@/design-system/components/core/Button.jsx';
 import { Input } from '@/design-system/components/forms/Input.jsx';
+import { Link } from '@/design-system/components/core/Link.jsx';
 
 export function ProfilePicker({ eventId, eventSlug, profiles }) {
   const router = useRouter();
@@ -45,6 +46,12 @@ export function ProfilePicker({ eventId, eventSlug, profiles }) {
           {state.error}
         </p>
       ) : null}
+
+      <div style={{ marginTop: 'var(--space-5)' }}>
+        <Link href={`/event/${eventSlug}/all`} bold>
+          View all receipts and the running total
+        </Link>
+      </div>
     </div>
   );
 }

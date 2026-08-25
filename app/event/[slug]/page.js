@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
 import { createServerClient } from '@/lib/supabase/server';
 import { GroupLogo } from '@/design-system/components/brand/GroupLogo.jsx';
-import { Link } from '@/design-system/components/core/Link.jsx';
 import { ShareButton } from './ShareButton';
 import { ProfilePicker } from './ProfilePicker';
 
@@ -47,12 +46,6 @@ export default async function EventHomePage({ params }) {
         Who are you?
       </h2>
       <ProfilePicker eventId={event.id} eventSlug={slug} profiles={profiles || []} />
-
-      <div style={{ marginTop: 'var(--space-6)' }}>
-        <Link href={`/event/${slug}/all`} bold>
-          View all receipts and the running total
-        </Link>
-      </div>
     </main>
   );
 }
