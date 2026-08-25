@@ -17,7 +17,7 @@ export async function GET(request, { params }) {
 
   const { data: receipts } = await supabase
     .from('receipts')
-    .select('*, receipt_files(*)')
+    .select('*, profiles(name), receipt_files(*)')
     .eq('event_id', event.id)
     .order('created_at', { ascending: true });
 
@@ -35,11 +35,12 @@ export async function GET(request, { params }) {
   const zipEntries = [];
 
   (receipts || []).forEach((r, i) => {
-    const folder = `files/${i + 1}-${safeSegment(r.submitter_name)}`;
+    const submitterName = r.profiles?.name || 'Unknown';
+    const folder = `files/${i + 1}-${safeSegment(submitterName)}`;
     const fileNames = (r.receipt_files || []).map((f) => f.original_filename || 'file');
 
     sheet.addRow({
-      name: r.submitter_name,
+      name: submitterName,
       comment: r.comment,
       amount: Number(r.amount),
       date: new Date(r.created_at).toLocaleDateString('en-GB'),

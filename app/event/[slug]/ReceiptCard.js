@@ -9,10 +9,10 @@ import { Button } from '@/design-system/components/core/Button.jsx';
 import { Textarea } from '@/design-system/components/forms/Textarea.jsx';
 import { Input } from '@/design-system/components/forms/Input.jsx';
 
-export function ReceiptCard({ receipt, eventSlug }) {
+export function ReceiptCard({ receipt, eventSlug, showName = true }) {
   const [editing, setEditing] = useState(false);
   const [isDeleting, startDeleteTransition] = useTransition();
-  const boundUpdate = updateReceipt.bind(null, receipt.id, eventSlug);
+  const boundUpdate = updateReceipt.bind(null, receipt.id, receipt.profile_id, eventSlug);
   const [state, action, pending] = useActionState(boundUpdate, {});
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export function ReceiptCard({ receipt, eventSlug }) {
     <Card tone="white" padding={20} style={{ marginBottom: 'var(--space-3)' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', gap: 'var(--space-3)', marginBottom: 'var(--space-2)' }}>
         <div style={{ display: 'flex', gap: 'var(--space-2)', alignItems: 'center', flexWrap: 'wrap' }}>
-          <Badge tone="purple" size="sm">{receipt.submitter_name}</Badge>
+          {showName ? <Badge tone="purple" size="sm">{receipt.profiles?.name}</Badge> : null}
           <span style={{ fontSize: 13, color: 'var(--text-muted)' }}>
             {new Date(receipt.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
           </span>
@@ -36,7 +36,16 @@ export function ReceiptCard({ receipt, eventSlug }) {
       {editing ? (
         <form action={action} style={{ display: 'grid', gap: 'var(--space-3)' }}>
           <Textarea id={`comment-${receipt.id}`} name="comment" label="Comment" defaultValue={receipt.comment} rows={2} required />
-          <Input id={`amount-${receipt.id}`} name="amount" type="number" label="Amount owed (£)" defaultValue={receipt.amount} required />
+          <Input
+            id={`amount-${receipt.id}`}
+            name="amount"
+            type="number"
+            step="0.01"
+            min="0.01"
+            label="Amount owed (£)"
+            defaultValue={receipt.amount}
+            required
+          />
           {state?.error ? (
             <p style={{ color: 'var(--status-error)', fontWeight: 'var(--weight-bold)', fontSize: 13 }}>{state.error}</p>
           ) : null}
@@ -69,7 +78,7 @@ export function ReceiptCard({ receipt, eventSlug }) {
               disabled={isDeleting}
               onClick={() => {
                 if (confirm('Delete this receipt? This can’t be undone.')) {
-                  startDeleteTransition(() => deleteReceipt(receipt.id, eventSlug));
+                  startDeleteTransition(() => deleteReceipt(receipt.id, receipt.profile_id, eventSlug));
                 }
               }}
             >

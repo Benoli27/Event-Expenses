@@ -1,33 +1,22 @@
 import { notFound } from 'next/navigation';
 import { createServerClient } from '@/lib/supabase/server';
 import { GroupLogo } from '@/design-system/components/brand/GroupLogo.jsx';
-import { Card } from '@/design-system/components/core/Card.jsx';
 import { Link } from '@/design-system/components/core/Link.jsx';
-import { ReceiptForm } from './ReceiptForm';
-import { ReceiptCard } from './ReceiptCard';
+import { ShareButton } from './ShareButton';
+import { ProfilePicker } from './ProfilePicker';
 
-export default async function EventPage({ params }) {
+export default async function EventHomePage({ params }) {
   const { slug } = await params;
   const supabase = createServerClient();
 
   const { data: event } = await supabase.from('events').select('*').eq('slug', slug).single();
   if (!event) notFound();
 
-  const { data: receipts } = await supabase
-    .from('receipts')
-    .select('*, receipt_files(*)')
+  const { data: profiles } = await supabase
+    .from('profiles')
+    .select('*')
     .eq('event_id', event.id)
-    .order('created_at', { ascending: false });
-
-  const receiptsWithUrls = (receipts || []).map((r) => ({
-    ...r,
-    receipt_files: (r.receipt_files || []).map((f) => ({
-      ...f,
-      publicUrl: supabase.storage.from('receipts').getPublicUrl(f.storage_path).data.publicUrl,
-    })),
-  }));
-
-  const total = receiptsWithUrls.reduce((sum, r) => sum + Number(r.amount), 0);
+    .order('name', { ascending: true });
 
   return (
     <main
@@ -50,37 +39,20 @@ export default async function EventPage({ params }) {
         {event.name}
       </h1>
 
-      <Card tone="purple" padding={20} style={{ marginBottom: 'var(--space-4)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
-          <div>
-            <div style={{ fontSize: 'var(--text-caption)', fontWeight: 'var(--weight-black)', letterSpacing: 'var(--tracking-wide)', opacity: 0.85 }}>
-              CLAIMED SO FAR
-            </div>
-            <div style={{ fontSize: 'var(--text-h1)', fontWeight: 'var(--weight-black)' }}>£{total.toFixed(2)}</div>
-          </div>
-          <div style={{ fontWeight: 'var(--weight-regular)' }}>
-            {receiptsWithUrls.length} receipt{receiptsWithUrls.length === 1 ? '' : 's'}
-          </div>
-        </div>
-      </Card>
-
       <div style={{ marginBottom: 'var(--space-6)' }}>
-        <Link href={`/api/event/${slug}/export`} bold>
-          Download all receipts (zip + spreadsheet)
-        </Link>
+        <ShareButton />
       </div>
 
-      <ReceiptForm eventId={event.id} eventSlug={slug} />
-
-      <h2 style={{ fontSize: 'var(--text-h4)', fontWeight: 'var(--weight-black)', marginBottom: 'var(--space-4)' }}>
-        Receipts
+      <h2 style={{ fontSize: 'var(--text-h4)', fontWeight: 'var(--weight-black)', marginBottom: 'var(--space-3)' }}>
+        Who are you?
       </h2>
+      <ProfilePicker eventId={event.id} eventSlug={slug} profiles={profiles || []} />
 
-      {receiptsWithUrls.length === 0 ? (
-        <p style={{ color: 'var(--text-muted)' }}>No receipts submitted yet.</p>
-      ) : (
-        receiptsWithUrls.map((r) => <ReceiptCard key={r.id} receipt={r} eventSlug={slug} />)
-      )}
+      <div style={{ marginTop: 'var(--space-6)' }}>
+        <Link href={`/event/${slug}/all`} bold>
+          View all receipts and the running total
+        </Link>
+      </div>
     </main>
   );
 }
