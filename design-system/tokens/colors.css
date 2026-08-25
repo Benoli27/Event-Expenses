@@ -1,0 +1,43 @@
+:root{
+/* --- Primary --- */
+--scout-purple:#7413dc;
+--scout-teal:#00a794;
+--scout-black:#000000;
+--scout-white:#ffffff;
+/* --- Pairing palette --- */
+--scout-navy:#003982;
+--scout-pink:#ffb4e5;
+--scout-yellow:#ffe627;
+--scout-red:#e22e12;
+--scout-blue:#006ddf;
+--scout-green:#23a950;
+/* --- Purple tints (5/20/40/60/80%) --- */
+--purple-05:#f5edfc;--purple-20:#e3d0f8;--purple-40:#c7a1f1;--purple-60:#aa71ea;--purple-80:#8e42e3;
+/* --- Teal tints --- */
+--teal-05:#edfaf8;--teal-20:#ccede9;--teal-40:#99dbd4;--teal-60:#66c9be;--teal-80:#33b8a9;
+/* --- Ink neutrals (from the guidelines' body-copy grey) --- */
+--ink-900:#000000;--ink-800:#2c2e35;--ink-600:#585c66;--ink-400:#9a9ea6;--ink-200:#d5d7db;--ink-100:#ebecee;--ink-050:#f6f6f7;
+/* --- Semantic aliases --- */
+--brand-primary:var(--scout-purple);
+--brand-secondary:var(--scout-teal);
+--text-heading:var(--scout-black);
+--text-body:var(--ink-800);
+--text-muted:var(--ink-600);
+--text-on-brand:var(--scout-white);
+--text-link:var(--scout-purple);
+--text-link-hover:var(--purple-80);
+--surface-page:var(--scout-white);
+--surface-card:var(--scout-white);
+--surface-subtle:var(--ink-050);
+--surface-brand:var(--scout-purple);
+--surface-brand-alt:var(--scout-teal);
+--surface-inverse:var(--scout-black);
+--border-subtle:var(--ink-200);
+--border-strong:var(--ink-800);
+--focus-ring:var(--scout-yellow);
+/* Semantic status — mapped onto palette colours; the guidelines define no status set */
+--status-success:var(--scout-green);
+--status-warning:var(--scout-yellow);
+--status-error:var(--scout-red);
+--status-info:var(--scout-blue);
+}

@@ -1,0 +1,47 @@
+<!-- @dsCard group="Components" viewport="700x360" name="Core — Button, Link, Card, Badge, Tag" subtitle="Buttons, links, flat cards, labels and filter chips" -->
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css"><style>html,body{margin:0}body{font-family:var(--font-brand);padding:16px;box-sizing:border-box}</style></head><body><div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script type="text/babel">
+const { Button, IconButton, Link, Card, Badge, Tag } = window.Ds8thSuttonScoutsDesignSystem_9ea80d;
+const row = { display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginBottom: 14 };
+function Demo() {
+  const [sel, setSel] = React.useState('All');
+  return (
+    <div>
+      <div style={row}>
+        <Button variant="primary">Get involved</Button>
+        <Button variant="secondary">Find us</Button>
+        <Button variant="outline">Read more</Button>
+        <Button variant="ghost">Cancel</Button>
+        <Button disabled>Unavailable</Button>
+      </div>
+      <div style={row}>
+        <Button size="sm">Small</Button><Button size="md">Medium</Button><Button size="lg">Large</Button>
+        <IconButton icon="menu" label="Menu" /><IconButton icon="x" label="Close" variant="solid" />
+        <Link href="#" bold>scouts.org.uk/join</Link>
+      </div>
+      <div style={{ ...row, background: 'var(--scout-purple)', padding: 12 }}>
+        <Button variant="inverse">Join us</Button>
+        <Link href="#" tone="inverse" bold>#SkillsForLife</Link>
+      </div>
+      <div style={row}>
+        {['Squirrels','Beavers','Cubs','Scouts','Explorers'].map((t,i) => <Badge key={t} tone={['red','blue','green','navy','teal'][i]}>{t}</Badge>)}
+        <Badge tone="yellow" size="sm">New</Badge><Badge tone="ink" size="sm">Archived</Badge>
+      </div>
+      <div style={row}>
+        {['All','Volunteering','Camps'].map(t => <Tag key={t} selected={sel===t} onClick={() => setSel(t)}>{t}</Tag>)}
+        <Tag disabled>Closed</Tag>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 12 }}>
+        <Card tone="white" eyebrow="News" title="Summer camp 2026" padding={16}>Three nights under canvas in the South Downs.</Card>
+        <Card tone="purple" title="Volunteer with us" padding={16}>Easier than you think — an hour a month is plenty.</Card>
+        <Card tone="teal" title="Skills for life" padding={16}>Teamwork, leadership and resilience.</Card>
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+</script></body></html>

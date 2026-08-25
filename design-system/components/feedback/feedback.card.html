@@ -1,0 +1,31 @@
+<!-- @dsCard group="Components" viewport="700x330" name="Feedback — Dialog, Toast, Tooltip" subtitle="Modal panels, status bars and hover labels" -->
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css"><style>html,body{margin:0}body{font-family:var(--font-brand);padding:16px;box-sizing:border-box}</style></head><body><div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script type="text/babel">
+const { Dialog, Toast, Tooltip, Button, IconButton } = window.Ds8thSuttonScoutsDesignSystem_9ea80d;
+function Demo() {
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18, alignItems: 'start' }}>
+      <div style={{ position: 'relative', height: 290, background: 'var(--surface-subtle)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
+        <Dialog tone="purple" width={340} title="Book a taster session" onClose={() => {}} footer={<><Button variant="ghost" size="sm">Cancel</Button><Button size="sm">Book</Button></>}>
+          Come along on a Monday and see what we do. No uniform needed.
+        </Dialog>
+      </div>
+      <div style={{ display: 'grid', gap: 10 }}>
+        <Toast tone="success" onDismiss={() => {}}>Thanks — we'll be in touch this week.</Toast>
+        <Toast tone="info">Camp places open on 1 March.</Toast>
+        <Toast tone="warning">Two forms still need signing.</Toast>
+        <Toast tone="error">We couldn't send that — please try again.</Toast>
+        <div style={{ display: 'flex', gap: 10, marginTop: 6 }}>
+          <Tooltip label="Add to calendar"><IconButton icon="calendar-days" label="Add to calendar" variant="solid" /></Tooltip>
+          <Tooltip label="Find us on the map" placement="bottom"><IconButton icon="map-pin" label="Find us" /></Tooltip>
+        </div>
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+</script></body></html>

@@ -1,0 +1,31 @@
+<!-- @dsCard group="Components" viewport="700x400" name="Forms — Input, Select, Checkbox, Radio, Switch" subtitle="2px ink borders, bold labels, yellow focus ring" -->
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css"><style>html,body{margin:0}body{font-family:var(--font-brand);padding:16px;box-sizing:border-box}</style></head><body><div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script type="text/babel">
+const { Input, Textarea, Select, Checkbox, Radio, Switch } = window.Ds8thSuttonScoutsDesignSystem_9ea80d;
+function Demo() {
+  const [s, setS] = React.useState({ name: 'Amara Okafor', section: 'Cubs', when: 'An hour a month', ok: true, emails: true });
+  const set = (k) => (e) => setS({ ...s, [k]: e.target.type === 'checkbox' ? e.target.checked : e.target.value });
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+      <div style={{ display: 'grid', gap: 14 }}>
+        <Input id="n" label="Your name" value={s.name} onChange={set('name')} />
+        <Input id="e" label="Email address" type="email" placeholder="you@example.com" hint="We'll only use this to reply." />
+        <Input id="p" label="Phone" error="Please add a number so we can reach you." />
+        <Select id="sec" label="Which section?" options={['Squirrels','Beavers','Cubs','Scouts','Explorers']} value={s.section} onChange={set('section')} />
+      </div>
+      <div style={{ display: 'grid', gap: 16, alignContent: 'start' }}>
+        <Radio name="when" label="When can you help?" options={['An hour a month','A day a year','Weekly']} value={s.when} onChange={set('when')} />
+        <Checkbox id="ok" label="I'm happy for photos to be shared" hint="You can change this any time." checked={s.ok} onChange={set('ok')} />
+        <Checkbox id="dis" label="Disabled option" disabled />
+        <Switch id="em" label="Email me about camps" checked={s.emails} onChange={set('emails')} />
+        <Textarea id="msg" label="Anything we should know?" rows={2} />
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+</script></body></html>

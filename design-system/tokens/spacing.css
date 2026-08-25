@@ -1,0 +1,14 @@
+:root{
+/* 8px base — grids bring order to the page; let elements breathe */
+--space-0:0;--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;--space-6:32px;--space-7:48px;--space-8:64px;--space-9:96px;--space-10:128px;
+--gutter:24px;
+--page-pad:32px;
+--section-pad-y:var(--space-9);
+--container-max:1180px;
+--container-narrow:720px;
+/* Grid columns from the guidelines: 2–4 for small print, 5–10 for large format */
+--grid-print:4; /* @kind other */
+--grid-large:10; /* @kind other */
+/* Clear space around the logo = height/width of the 'u' in Scouts (~0.32 x mark height) */
+--logo-clearspace:0.32em;
+}

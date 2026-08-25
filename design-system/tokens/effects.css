@@ -1,0 +1,20 @@
+:root{
+/* The identity is bold, clean and flat: radii are minimal and shadows are used sparingly */
+--radius-none:0;
+--radius-sm:4px;
+--radius-md:8px;
+--radius-pill:999px;
+--border-width:2px;
+--border-width-thick:4px;
+--shadow-none:none;
+--shadow-card:0 2px 8px rgba(0,0,0,0.08);
+--shadow-raised:0 8px 24px rgba(0,0,0,0.12);
+--shadow-focus:0 0 0 3px var(--scout-yellow);
+--ease-standard:cubic-bezier(0.4,0,0.2,1); /* @kind other */
+--ease-out:cubic-bezier(0,0,0.2,1); /* @kind other */
+--duration-fast:120ms; /* @kind other */
+--duration-base:200ms; /* @kind other */
+--duration-slow:320ms; /* @kind other */
+--overlay-scrim:linear-gradient(to top,rgba(0,0,0,0.62),rgba(0,0,0,0) 68%); /* @kind color */
+--overlay-purple:rgba(116,19,220,0.9);
+}

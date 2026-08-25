@@ -1,0 +1,28 @@
+:root{
+--font-brand:"Nunito Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+--font-body:var(--font-brand);
+--font-display:var(--font-brand);
+/* Weights, named as the guidelines name them */
+--weight-light:300;   /* body copy on white */
+--weight-regular:400; /* body copy on solid colour */
+--weight-bold:700;    /* CTAs, contact details, emphasis in body */
+--weight-extrabold:800; /* logo personalisation only */
+--weight-black:900;   /* headlines and hashtags */
+/* Scale — derived from the leaflet spec (34/36pt heads, 16/24pt subheads, 10/12pt body) */
+--text-hero:clamp(2.75rem,6vw,5rem);
+--text-h1:3rem;      /* 48px */
+--text-h2:2.25rem;   /* 36px — 36pt headline */
+--text-h3:1.5rem;    /* 24px */
+--text-h4:1.25rem;   /* 20px */
+--text-lead:1.25rem;
+--text-body:1rem;
+--text-small:0.875rem;
+--text-caption:0.75rem;
+--leading-tight:1.05;  /* stacked black headlines: Do more. Share more. Be more. */
+--leading-snug:1.2;
+--leading-body:1.5;
+--leading-loose:1.6;
+--tracking-tight:-0.02em;
+--tracking-normal:0;
+--tracking-wide:0.02em;
+}
