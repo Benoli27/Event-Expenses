@@ -84,7 +84,7 @@ export function FileDropzone({ name = 'files', accept, multiple = true, error })
         }}
       />
       {fileNames.length > 0 ? (
-        <ul style={{ marginTop: 'var(--space-2)', fontSize: 13, color: 'var(--text-body)', paddingLeft: 18 }}>
+        <ul style={{ marginTop: 'var(--space-2)', fontSize: 'var(--text-body)', fontWeight: 'var(--weight-bold)', color: 'var(--text-body)', paddingLeft: 18 }}>
           {fileNames.map((n, i) => (
             <li key={`${n}-${i}`}>{n}</li>
           ))}

@@ -24,41 +24,105 @@ export async function GET(request, { params }) {
   const workbook = new ExcelJS.Workbook();
   const sheet = workbook.addWorksheet('Receipts');
   sheet.columns = [
-    { header: 'Submitted by', key: 'name', width: 24 },
-    { header: 'Comment', key: 'comment', width: 50 },
-    { header: 'Amount (£)', key: 'amount', width: 14 },
-    { header: 'Date', key: 'date', width: 14 },
-    { header: 'Files (in zip)', key: 'files', width: 50 },
+    { key: 'name', width: 24 },
+    { key: 'description', width: 50 },
+    { key: 'comment', width: 50 },
+    { key: 'amount', width: 14, style: { numFmt: '£#,##0.00' } },
+    { key: 'paid', width: 10 },
+    { key: 'files', width: 50 },
   ];
-  sheet.getRow(1).font = { bold: true };
+
+  sheet.mergeCells('A1:F1');
+  const titleCell = sheet.getCell('A1');
+  titleCell.value = event.name;
+  titleCell.font = { bold: true, size: 18, color: { argb: 'FF7413DC' } };
+  titleCell.alignment = { vertical: 'middle' };
+  sheet.getRow(1).height = 28;
+
+  const headerRow = sheet.getRow(2);
+  headerRow.values = ['Submitted by', 'Receipt Description', 'Comment', 'Amount (£)', 'Paid', 'Files (in zip)'];
+  headerRow.eachCell((cell) => {
+    cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF7413DC' } };
+    cell.alignment = { vertical: 'middle' };
+  });
+  headerRow.height = 20;
+  sheet.views = [{ state: 'frozen', ySplit: 2 }];
 
   const zipEntries = [];
 
-  (receipts || []).forEach((r, i) => {
-    const submitterName = r.profiles?.name || 'Unknown';
-    const folder = `files/${i + 1}-${safeSegment(submitterName)}`;
-    const fileNames = (r.receipt_files || []).map((f) => f.original_filename || 'file');
+  const groups = new Map();
+  (receipts || []).forEach((r) => {
+    const key = r.profile_id || 'unknown';
+    if (!groups.has(key)) {
+      groups.set(key, { name: r.profiles?.name || 'Unknown', receipts: [] });
+    }
+    groups.get(key).receipts.push(r);
+  });
+  const sortedGroups = Array.from(groups.values()).sort((a, b) => a.name.localeCompare(b.name));
 
-    sheet.addRow({
-      name: submitterName,
-      comment: r.comment,
-      amount: Number(r.amount),
-      date: new Date(r.created_at).toLocaleDateString('en-GB'),
-      files: fileNames.map((n) => `${folder}/${n}`).join(', '),
+  let fileCounter = 0;
+
+  sortedGroups.forEach((group) => {
+    group.receipts.forEach((r) => {
+      fileCounter += 1;
+      const folder = `files/${fileCounter}-${safeSegment(group.name)}`;
+      const fileNames = (r.receipt_files || []).map((f) => f.original_filename || 'file');
+
+      const row = sheet.addRow({
+        name: group.name,
+        description: r.description,
+        comment: r.comment,
+        amount: Number(r.amount),
+        paid: r.paid ? 'Paid' : '',
+        files: fileNames.join(', '),
+      });
+      row.eachCell((cell) => {
+        cell.border = { bottom: { style: 'thin', color: { argb: 'FFE3D0F8' } } };
+      });
+
+      (r.receipt_files || []).forEach((f) => {
+        zipEntries.push({ path: `${folder}/${f.original_filename || 'file'}`, storagePath: f.storage_path });
+      });
     });
 
-    (r.receipt_files || []).forEach((f) => {
-      zipEntries.push({ path: `${folder}/${f.original_filename || 'file'}`, storagePath: f.storage_path });
+    const subtotal = group.receipts.reduce((sum, r) => sum + Number(r.amount), 0);
+    const subtotalRow = sheet.addRow({
+      name: group.name,
+      description: 'Subtotal',
+      comment: '',
+      amount: subtotal,
+      paid: '',
+      files: '',
     });
+    subtotalRow.eachCell({ includeEmpty: true }, (cell) => {
+      cell.font = { bold: true };
+      cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFEBECEE' } };
+      cell.border = {
+        top: { style: 'thin', color: { argb: 'FFD5D7DB' } },
+        bottom: { style: 'thin', color: { argb: 'FFD5D7DB' } },
+      };
+    });
+
+    sheet.addRow({}).height = 8;
   });
 
-  const totalRow = sheet.addRow({ name: '', comment: '', amount: '', date: '', files: '' });
-  sheet.addRow({
-    name: '',
-    comment: 'Total',
-    amount: (receipts || []).reduce((sum, r) => sum + Number(r.amount), 0),
-  }).font = { bold: true };
+  const totalRow = sheet.addRow({ name: '', description: '', comment: '', amount: '', paid: '', files: '' });
   totalRow.height = 4;
+
+  const summaryRow = sheet.addRow({
+    name: '',
+    description: 'Total',
+    comment: '',
+    amount: (receipts || []).reduce((sum, r) => sum + Number(r.amount), 0),
+    paid: '',
+    files: '',
+  });
+  summaryRow.eachCell({ includeEmpty: true }, (cell) => {
+    cell.font = { bold: true };
+    cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFD5D7DB' } };
+    cell.border = { top: { style: 'thin', color: { argb: 'FF7413DC' } } };
+  });
 
   const xlsxBuffer = await workbook.xlsx.writeBuffer();
 

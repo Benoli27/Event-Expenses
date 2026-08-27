@@ -26,7 +26,7 @@ export default async function EventHomePage({ params }) {
         padding: 'var(--space-6) var(--page-pad)',
       }}
     >
-      <GroupLogo tone="purple" height={56} src="/logo/8th-sutton-purple.png" />
+      <GroupLogo tone="purple" height={88} src="/logo/8th-sutton-purple.png" style={{ margin: '0 auto' }} />
       <h1
         style={{
           fontSize: 'var(--text-h1)',

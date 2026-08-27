@@ -30,7 +30,8 @@ export function ReceiptForm({ profileId, eventSlug }) {
       </h2>
       <form ref={formRef} action={action} style={{ display: 'grid', gap: 'var(--space-4)' }}>
         <FileDropzone name="files" accept="image/*,application/pdf" multiple />
-        <Textarea id="comment" name="comment" label="Comment" rows={3} required />
+        <Textarea id="description" name="description" label="Receipt Description" rows={1} required />
+        <Textarea id="comment" name="comment" label="Comment" rows={3} />
         <Input
           id="amount"
           name="amount"
