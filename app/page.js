@@ -1,4 +1,5 @@
 import { GroupLogo } from "@/design-system/components/brand/GroupLogo.jsx";
+import { Button } from "@/design-system/components/core/Button.jsx";
 import { NewEventForm } from "./NewEventForm";
 
 export default function Home() {
@@ -41,6 +42,9 @@ export default function Home() {
         event link with anyone who needs to submit a receipt.
       </p>
       <NewEventForm />
+      <Button variant="ghost" size="sm" href="/admin" style={{ marginTop: "var(--space-6)" }}>
+        Admin
+      </Button>
     </main>
   );
 }
