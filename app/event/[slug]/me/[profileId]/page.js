@@ -57,7 +57,7 @@ export default async function MyReceiptsPage({ params }) {
       >
         {event.name}
       </h1>
-      <p style={{ color: 'var(--text-muted)', fontWeight: 'var(--weight-light)', marginBottom: 'var(--space-4)' }}>
+      <p style={{ fontSize: 'var(--text-h3)', color: 'var(--text-muted)', fontWeight: 'var(--weight-light)', marginBottom: 'var(--space-4)' }}>
         Hi, {profile.name}
       </p>
 
@@ -76,7 +76,7 @@ export default async function MyReceiptsPage({ params }) {
       </Card>
 
       <div style={{ marginBottom: 'var(--space-6)' }}>
-        <Button variant="outline" size="sm" href={`/event/${slug}`}>
+        <Button variant="outline" href={`/event/${slug}`}>
           ← Back
         </Button>
       </div>

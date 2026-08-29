@@ -78,7 +78,6 @@ export function FileDropzone({ name = 'files', accept, multiple = true, error })
       <Button
         type="button"
         variant="outline"
-        size="sm"
         onClick={() => cameraInputRef.current?.click()}
         style={{ display: 'flex', margin: 'var(--space-3) auto 0' }}
       >
