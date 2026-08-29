@@ -100,7 +100,7 @@ export function ReceiptCard({ receipt, eventSlug, showName = true }) {
               </Link>
             ))}
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1)', flexWrap: 'nowrap', overflowX: 'auto' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1)', flexWrap: 'wrap' }}>
             <Button
               variant="ghost"
               size="sm"
