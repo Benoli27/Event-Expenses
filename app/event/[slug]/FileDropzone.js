@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { Icon } from '@/design-system/components/brand/Icon.jsx';
+import { Button } from '@/design-system/components/core/Button.jsx';
 
 export function FileDropzone({ name = 'files', accept, multiple = true, error }) {
   const inputRef = useRef(null);
@@ -74,24 +75,15 @@ export function FileDropzone({ name = 'files', accept, multiple = true, error })
         </div>
       </div>
 
-      <button
+      <Button
         type="button"
+        variant="outline"
+        size="sm"
         onClick={() => cameraInputRef.current?.click()}
-        style={{
-          display: 'block',
-          margin: 'var(--space-2) auto 0',
-          background: 'none',
-          border: 'none',
-          padding: 0,
-          fontFamily: 'var(--font-brand)',
-          fontWeight: 'var(--weight-bold)',
-          fontSize: 14,
-          color: 'var(--scout-purple)',
-          cursor: 'pointer',
-        }}
+        style={{ display: 'flex', margin: 'var(--space-3) auto 0' }}
       >
         Or take a photo
-      </button>
+      </Button>
 
       <input
         ref={inputRef}

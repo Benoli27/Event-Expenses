@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { createServerClient } from '@/lib/supabase/server';
 import { GroupLogo } from '@/design-system/components/brand/GroupLogo.jsx';
 import { Card } from '@/design-system/components/core/Card.jsx';
-import { Link } from '@/design-system/components/core/Link.jsx';
+import { Button } from '@/design-system/components/core/Button.jsx';
 import { ReceiptForm } from '../../ReceiptForm';
 import { ReceiptCard } from '../../ReceiptCard';
 
@@ -76,9 +76,9 @@ export default async function MyReceiptsPage({ params }) {
       </Card>
 
       <div style={{ marginBottom: 'var(--space-6)' }}>
-        <Link href={`/event/${slug}`} bold>
-          Not {profile.name}? Switch profile or view everyone&apos;s receipts
-        </Link>
+        <Button variant="ghost" size="sm" href={`/event/${slug}`}>
+          ← Back
+        </Button>
       </div>
 
       <ReceiptForm profileId={profile.id} eventSlug={slug} />
