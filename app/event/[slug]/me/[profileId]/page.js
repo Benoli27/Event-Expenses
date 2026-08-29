@@ -76,7 +76,7 @@ export default async function MyReceiptsPage({ params }) {
       </Card>
 
       <div style={{ marginBottom: 'var(--space-6)' }}>
-        <Button variant="ghost" size="sm" href={`/event/${slug}`}>
+        <Button variant="outline" size="sm" href={`/event/${slug}`}>
           ← Back
         </Button>
       </div>
