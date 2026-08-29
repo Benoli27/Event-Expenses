@@ -29,7 +29,7 @@ export function Button({ children, variant = 'primary', size = 'md', fullWidth, 
       onMouseLeave={() => setHover(false)}
       style={{
         fontFamily: 'var(--font-brand)', fontWeight: 'var(--weight-bold)', fontSize: s.fontSize,
-        padding: s.padding, minHeight: s.minHeight, lineHeight: 1.2,
+        padding: s.padding, minHeight: s.minHeight, lineHeight: 1.2, boxSizing: 'border-box',
         display: fullWidth ? 'flex' : 'inline-flex', width: fullWidth ? '100%' : undefined,
         alignItems: 'center', justifyContent: 'center', gap: 8,
         background: disabled ? 'var(--ink-200)' : (hover ? t.hoverBg : t.bg),
