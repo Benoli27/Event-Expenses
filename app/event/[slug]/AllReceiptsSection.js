@@ -1,6 +1,6 @@
 import { createServerClient } from '@/lib/supabase/server';
 import { Card } from '@/design-system/components/core/Card.jsx';
-import { Link } from '@/design-system/components/core/Link.jsx';
+import { Button } from '@/design-system/components/core/Button.jsx';
 import { ReceiptCard } from './ReceiptCard';
 
 export async function AllReceiptsSection({ eventId, eventSlug }) {
@@ -51,9 +51,9 @@ export async function AllReceiptsSection({ eventId, eventSlug }) {
       </Card>
 
       <div style={{ marginBottom: 'var(--space-6)' }}>
-        <Link href={`/api/event/${eventSlug}/export`} bold>
+        <Button variant="outline" href={`/api/event/${eventSlug}/export`}>
           Download all receipts (zip + spreadsheet)
-        </Link>
+        </Button>
       </div>
 
       <h2 style={{ fontSize: 'var(--text-h4)', fontWeight: 'var(--weight-black)', marginBottom: 'var(--space-4)' }}>
