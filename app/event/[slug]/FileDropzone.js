@@ -2,11 +2,9 @@
 
 import { useRef, useState } from 'react';
 import { Icon } from '@/design-system/components/brand/Icon.jsx';
-import { Button } from '@/design-system/components/core/Button.jsx';
 
 export function FileDropzone({ name = 'files', accept, multiple = true, error }) {
   const inputRef = useRef(null);
-  const cameraInputRef = useRef(null);
   const [fileNames, setFileNames] = useState([]);
   const [dragOver, setDragOver] = useState(false);
 
@@ -23,12 +21,6 @@ export function FileDropzone({ name = 'files', accept, multiple = true, error })
 
   function handleChange(e) {
     setFileNames(Array.from(e.target.files || []).map((f) => f.name));
-  }
-
-  function handleCameraCapture(e) {
-    /* This input has its own separate FileList — mirror it into the real
-       "files" input so the form only ever submits from one source. */
-    if (e.target.files?.length) setFilesFromList(e.target.files);
   }
 
   return (
@@ -68,21 +60,12 @@ export function FileDropzone({ name = 'files', accept, multiple = true, error })
           style={{ margin: '0 auto var(--space-2)', display: 'block' }}
         />
         <div style={{ fontWeight: 'var(--weight-bold)', fontSize: 15, color: 'var(--text-heading)' }}>
-          Drag and drop a receipt here, or tap to browse files
+          Drag and drop, upload, or take a photo
         </div>
         <div style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 4 }}>
           Photos or PDFs — you can add more than one
         </div>
       </div>
-
-      <Button
-        type="button"
-        variant="outline"
-        onClick={() => cameraInputRef.current?.click()}
-        style={{ width: '100%', marginTop: 'var(--space-3)' }}
-      >
-        Or take a photo
-      </Button>
 
       <input
         ref={inputRef}
@@ -91,21 +74,6 @@ export function FileDropzone({ name = 'files', accept, multiple = true, error })
         accept={accept}
         multiple={multiple}
         onChange={handleChange}
-        style={{
-          position: 'absolute',
-          width: 1,
-          height: 1,
-          opacity: 0,
-          overflow: 'hidden',
-          clip: 'rect(0,0,0,0)',
-        }}
-      />
-      <input
-        ref={cameraInputRef}
-        type="file"
-        accept="image/*"
-        capture="environment"
-        onChange={handleCameraCapture}
         style={{
           position: 'absolute',
           width: 1,
