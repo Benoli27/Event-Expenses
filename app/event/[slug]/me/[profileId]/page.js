@@ -3,7 +3,6 @@ import { createServerClient } from '@/lib/supabase/server';
 import { GroupLogo } from '@/design-system/components/brand/GroupLogo.jsx';
 import { Card } from '@/design-system/components/core/Card.jsx';
 import { Button } from '@/design-system/components/core/Button.jsx';
-import { Icon } from '@/design-system/components/brand/Icon.jsx';
 import { ReceiptForm } from '../../ReceiptForm';
 import { ReceiptCard } from '../../ReceiptCard';
 
@@ -77,7 +76,7 @@ export default async function MyReceiptsPage({ params }) {
       </Card>
 
       <div style={{ marginBottom: 'var(--space-6)' }}>
-        <Button variant="outline" href={`/event/${slug}`} iconStart={<Icon name="arrow-left" size={18} />}>
+        <Button variant="outline" href={`/event/${slug}`} iconStart="←">
           Back
         </Button>
       </div>
