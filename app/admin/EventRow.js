@@ -1,18 +1,21 @@
 'use client';
 
-import { useTransition } from 'react';
+import { useState, useTransition } from 'react';
 import { deleteEvent } from '@/lib/actions';
 import { Card } from '@/design-system/components/core/Card.jsx';
 import { Button } from '@/design-system/components/core/Button.jsx';
+import { Link } from '@/design-system/components/core/Link.jsx';
+import { Dialog } from '@/design-system/components/feedback/Dialog.jsx';
 
 export function EventRow({ event }) {
   const [isDeleting, startDeleteTransition] = useTransition();
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const path = `/event/${event.slug}`;
+  const exportPath = `/api/event/${event.slug}/export`;
 
-  function handleDelete() {
-    if (confirm(`Delete "${event.name}"? This permanently deletes the event, its receipts, and all uploaded files. This can’t be undone.`)) {
-      startDeleteTransition(() => deleteEvent(event.id));
-    }
+  function handleConfirmDelete() {
+    setConfirmOpen(false);
+    startDeleteTransition(() => deleteEvent(event.id));
   }
 
   return (
@@ -35,11 +38,38 @@ export function EventRow({ event }) {
           <Button variant="outline" size="sm" href={path}>
             View event
           </Button>
-          <Button variant="ghost" size="sm" disabled={isDeleting} onClick={handleDelete}>
+          <Button variant="ghost" size="sm" disabled={isDeleting} onClick={() => setConfirmOpen(true)}>
             {isDeleting ? 'Deleting…' : 'Delete event'}
           </Button>
         </div>
       </div>
+
+      <Dialog
+        open={confirmOpen}
+        title={`Delete "${event.name}"?`}
+        onClose={() => setConfirmOpen(false)}
+        style={{ position: 'fixed' }}
+        footer={
+          <>
+            <Button variant="ghost" size="sm" onClick={() => setConfirmOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="primary" size="sm" onClick={handleConfirmDelete}>
+              Delete event
+            </Button>
+          </>
+        }
+      >
+        <p style={{ marginBottom: 'var(--space-3)' }}>
+          This permanently deletes the event, its receipts, and all uploaded files. This can’t be undone.
+        </p>
+        <p style={{ fontWeight: 'var(--weight-bold)' }}>
+          Download before deleting?{' '}
+          <Link href={exportPath} bold>
+            Download all receipts (zip + spreadsheet)
+          </Link>
+        </p>
+      </Dialog>
     </Card>
   );
 }

@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers';
 import { createServerClient } from '@/lib/supabase/server';
-import { ADMIN_COOKIE } from '@/lib/admin';
+import { ADMIN_COOKIE, passcodeMatches } from '@/lib/admin';
 import { GroupLogo } from '@/design-system/components/brand/GroupLogo.jsx';
 import { AdminLoginForm } from './AdminLoginForm';
 import { LogoutButton } from './LogoutButton';
@@ -10,7 +10,7 @@ export const metadata = { title: 'Admin — Event Expenses' };
 
 export default async function AdminPage() {
   const cookieStore = await cookies();
-  const isAuthed = cookieStore.get(ADMIN_COOKIE)?.value === process.env.ADMIN_PASSCODE;
+  const isAuthed = passcodeMatches(cookieStore.get(ADMIN_COOKIE)?.value);
 
   if (!isAuthed) {
     return (
