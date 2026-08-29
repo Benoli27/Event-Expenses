@@ -69,14 +69,14 @@ export default async function MyReceiptsPage({ params }) {
             </div>
             <div style={{ fontSize: 'var(--text-h1)', fontWeight: 'var(--weight-black)' }}>£{total.toFixed(2)}</div>
           </div>
-          <div style={{ fontSize: 'var(--text-caption)', fontWeight: 'var(--weight-black)', letterSpacing: 'var(--tracking-wide)', opacity: 0.85 }}>
+          <div style={{ fontSize: 'var(--text-caption)', fontWeight: 'var(--weight-black)', letterSpacing: 'var(--tracking-wide)', opacity: 0.85, textTransform: 'uppercase' }}>
             {receiptsWithUrls.length} receipt{receiptsWithUrls.length === 1 ? '' : 's'}
           </div>
         </div>
       </Card>
 
       <div style={{ marginBottom: 'var(--space-6)' }}>
-        <Button variant="outline" href={`/event/${slug}`} iconStart="←">
+        <Button variant="outline" href={`/event/${slug}`} iconStart="←" style={{ gap: 'var(--space-3)' }}>
           Back
         </Button>
       </div>
