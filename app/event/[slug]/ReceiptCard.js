@@ -81,7 +81,7 @@ export function ReceiptCard({ receipt, eventSlug, showName = true }) {
               marginBottom: receipt.comment ? 'var(--space-1)' : 'var(--space-3)',
             }}
           >
-            <p style={{ fontSize: 'var(--text-h4)', fontWeight: 'var(--weight-black)', textAlign: 'left' }}>
+            <p style={{ margin: 0, fontSize: 'var(--text-h4)', fontWeight: 'var(--weight-black)', textAlign: 'left' }}>
               {receipt.description}
             </p>
             <div style={{ fontSize: 'var(--text-h4)', fontWeight: 'var(--weight-black)', whiteSpace: 'nowrap' }}>
@@ -89,7 +89,7 @@ export function ReceiptCard({ receipt, eventSlug, showName = true }) {
             </div>
           </div>
           {receipt.comment ? (
-            <p style={{ fontSize: 'var(--text-body)', fontWeight: 'var(--weight-regular)', color: 'var(--text-muted)', marginBottom: 'var(--space-3)' }}>
+            <p style={{ margin: 0, marginBottom: 'var(--space-3)', fontSize: 'var(--text-body)', fontWeight: 'var(--weight-regular)', color: 'var(--text-muted)' }}>
               {receipt.comment}
             </p>
           ) : null}
@@ -100,41 +100,39 @@ export function ReceiptCard({ receipt, eventSlug, showName = true }) {
               </Link>
             ))}
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'nowrap', overflowX: 'auto' }}>
-            <div style={{ display: 'flex', gap: 'var(--space-1)', flexWrap: 'nowrap' }}>
-              <Button
-                variant="ghost"
-                size="sm"
-                style={{ padding: '6px 10px', fontSize: 12, minHeight: 32, flexShrink: 0 }}
-                onClick={() => setEditing(true)}
-              >
-                Edit
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                style={{ padding: '6px 10px', fontSize: 12, minHeight: 32, flexShrink: 0 }}
-                disabled={isDeleting}
-                onClick={() => {
-                  if (confirm('Delete this receipt? This can’t be undone.')) {
-                    startDeleteTransition(() => deleteReceipt(receipt.id, receipt.profile_id, eventSlug));
-                  }
-                }}
-              >
-                {isDeleting ? 'Deleting…' : 'Delete'}
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                style={{ padding: '6px 10px', fontSize: 12, minHeight: 32, flexShrink: 0 }}
-                disabled={isTogglingPaid}
-                onClick={handleTogglePaid}
-              >
-                {isTogglingPaid ? 'Saving…' : receipt.paid ? 'Mark as not paid' : 'Mark as paid'}
-              </Button>
-            </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-1)', flexWrap: 'nowrap', overflowX: 'auto' }}>
+            <Button
+              variant="ghost"
+              size="sm"
+              style={{ padding: '6px 10px', fontSize: 12, minHeight: 32, flexShrink: 0 }}
+              onClick={() => setEditing(true)}
+            >
+              Edit
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              style={{ padding: '6px 10px', fontSize: 12, minHeight: 32, flexShrink: 0 }}
+              disabled={isDeleting}
+              onClick={() => {
+                if (confirm('Delete this receipt? This can’t be undone.')) {
+                  startDeleteTransition(() => deleteReceipt(receipt.id, receipt.profile_id, eventSlug));
+                }
+              }}
+            >
+              {isDeleting ? 'Deleting…' : 'Delete'}
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              style={{ padding: '6px 10px', fontSize: 12, minHeight: 32, flexShrink: 0 }}
+              disabled={isTogglingPaid}
+              onClick={handleTogglePaid}
+            >
+              {isTogglingPaid ? 'Saving…' : receipt.paid ? 'Mark as not paid' : 'Mark as paid'}
+            </Button>
             {receipt.paid ? (
-              <Badge tone="teal" size="sm" style={{ flexShrink: 0 }}>
+              <Badge tone="teal" size="sm" style={{ flexShrink: 0, marginLeft: 'var(--space-1)' }}>
                 Paid
               </Badge>
             ) : null}
