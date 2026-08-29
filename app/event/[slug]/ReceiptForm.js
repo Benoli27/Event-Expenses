@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react';
 import { createReceiptUploadUrls, addReceiptWithFiles } from '@/lib/actions';
 import { createBrowserClient } from '@/lib/supabase/client';
+import { compressImage } from '@/lib/compressImage';
 import { Textarea } from '@/design-system/components/forms/Textarea.jsx';
 import { Input } from '@/design-system/components/forms/Input.jsx';
 import { Button } from '@/design-system/components/core/Button.jsx';
@@ -32,9 +33,11 @@ export function ReceiptForm({ profileId, eventSlug }) {
 
     setPending(true);
     try {
+      const compressedFiles = await Promise.all(files.map((f) => compressImage(f)));
+
       const prep = await createReceiptUploadUrls(
         profileId,
-        files.map((f) => ({ name: f.name, type: f.type }))
+        compressedFiles.map((f) => ({ name: f.name, type: f.type }))
       );
       if (prep?.error) {
         setError(prep.error);
@@ -43,14 +46,14 @@ export function ReceiptForm({ profileId, eventSlug }) {
 
       const supabase = createBrowserClient();
       const uploaded = [];
-      for (let i = 0; i < files.length; i++) {
+      for (let i = 0; i < compressedFiles.length; i++) {
         const { path, token, original_filename } = prep.uploads[i];
         const { error: uploadError } = await supabase.storage
           .from('receipts')
-          .uploadToSignedUrl(path, token, files[i]);
+          .uploadToSignedUrl(path, token, compressedFiles[i]);
 
         if (uploadError) {
-          setError(`Could not upload ${files[i].name} — try again.`);
+          setError(`Could not upload ${compressedFiles[i].name} — try again.`);
           return;
         }
         uploaded.push({ storage_path: path, original_filename });
