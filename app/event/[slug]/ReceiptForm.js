@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import { createReceiptUploadUrls, addReceiptWithFiles } from '@/lib/actions';
 import { createBrowserClient } from '@/lib/supabase/client';
 import { compressImage } from '@/lib/compressImage';
+import { buildReceiptFileName } from '@/lib/receiptFileName';
 import { Textarea } from '@/design-system/components/forms/Textarea.jsx';
 import { Input } from '@/design-system/components/forms/Input.jsx';
 import { Button } from '@/design-system/components/core/Button.jsx';
@@ -56,7 +57,10 @@ export function ReceiptForm({ profileId, eventSlug }) {
           setError(`Could not upload ${compressedFiles[i].name} — try again.`);
           return;
         }
-        uploaded.push({ storage_path: path, original_filename });
+        uploaded.push({
+          storage_path: path,
+          original_filename: buildReceiptFileName(description, original_filename, i, compressedFiles.length),
+        });
       }
 
       const finalData = new FormData();
