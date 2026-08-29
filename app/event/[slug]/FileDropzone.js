@@ -5,6 +5,7 @@ import { Icon } from '@/design-system/components/brand/Icon.jsx';
 
 export function FileDropzone({ name = 'files', accept, multiple = true, error }) {
   const inputRef = useRef(null);
+  const cameraInputRef = useRef(null);
   const [fileNames, setFileNames] = useState([]);
   const [dragOver, setDragOver] = useState(false);
 
@@ -21,6 +22,12 @@ export function FileDropzone({ name = 'files', accept, multiple = true, error })
 
   function handleChange(e) {
     setFileNames(Array.from(e.target.files || []).map((f) => f.name));
+  }
+
+  function handleCameraCapture(e) {
+    /* This input has its own separate FileList — mirror it into the real
+       "files" input so the form only ever submits from one source. */
+    if (e.target.files?.length) setFilesFromList(e.target.files);
   }
 
   return (
@@ -60,19 +67,38 @@ export function FileDropzone({ name = 'files', accept, multiple = true, error })
           style={{ margin: '0 auto var(--space-2)', display: 'block' }}
         />
         <div style={{ fontWeight: 'var(--weight-bold)', fontSize: 15, color: 'var(--text-heading)' }}>
-          Drag and drop a receipt here, or tap to upload
+          Drag and drop a receipt here, or tap to browse files
         </div>
         <div style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 4 }}>
           Photos or PDFs — you can add more than one
         </div>
       </div>
+
+      <button
+        type="button"
+        onClick={() => cameraInputRef.current?.click()}
+        style={{
+          display: 'block',
+          margin: 'var(--space-2) auto 0',
+          background: 'none',
+          border: 'none',
+          padding: 0,
+          fontFamily: 'var(--font-brand)',
+          fontWeight: 'var(--weight-bold)',
+          fontSize: 14,
+          color: 'var(--scout-purple)',
+          cursor: 'pointer',
+        }}
+      >
+        Or take a photo
+      </button>
+
       <input
         ref={inputRef}
         type="file"
         name={name}
         accept={accept}
         multiple={multiple}
-        capture="environment"
         onChange={handleChange}
         style={{
           position: 'absolute',
@@ -83,6 +109,22 @@ export function FileDropzone({ name = 'files', accept, multiple = true, error })
           clip: 'rect(0,0,0,0)',
         }}
       />
+      <input
+        ref={cameraInputRef}
+        type="file"
+        accept="image/*"
+        capture="environment"
+        onChange={handleCameraCapture}
+        style={{
+          position: 'absolute',
+          width: 1,
+          height: 1,
+          opacity: 0,
+          overflow: 'hidden',
+          clip: 'rect(0,0,0,0)',
+        }}
+      />
+
       {fileNames.length > 0 ? (
         <ul style={{ marginTop: 'var(--space-2)', fontSize: 'var(--text-body)', fontWeight: 'var(--weight-bold)', color: 'var(--text-body)', paddingLeft: 18 }}>
           {fileNames.map((n, i) => (
