@@ -3,6 +3,7 @@ import { createServerClient } from '@/lib/supabase/server';
 import { GroupLogo } from '@/design-system/components/brand/GroupLogo.jsx';
 import { Card } from '@/design-system/components/core/Card.jsx';
 import { Button } from '@/design-system/components/core/Button.jsx';
+import { Icon } from '@/design-system/components/brand/Icon.jsx';
 import { ReceiptForm } from '../../ReceiptForm';
 import { ReceiptCard } from '../../ReceiptCard';
 
@@ -69,15 +70,15 @@ export default async function MyReceiptsPage({ params }) {
             </div>
             <div style={{ fontSize: 'var(--text-h1)', fontWeight: 'var(--weight-black)' }}>£{total.toFixed(2)}</div>
           </div>
-          <div style={{ fontWeight: 'var(--weight-regular)' }}>
+          <div style={{ fontSize: 'var(--text-caption)', fontWeight: 'var(--weight-black)', letterSpacing: 'var(--tracking-wide)', opacity: 0.85 }}>
             {receiptsWithUrls.length} receipt{receiptsWithUrls.length === 1 ? '' : 's'}
           </div>
         </div>
       </Card>
 
       <div style={{ marginBottom: 'var(--space-6)' }}>
-        <Button variant="outline" href={`/event/${slug}`}>
-          ← Back
+        <Button variant="outline" href={`/event/${slug}`} iconStart={<Icon name="arrow-left" size={18} />}>
+          Back
         </Button>
       </div>
 
